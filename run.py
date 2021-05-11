@@ -1,6 +1,5 @@
 import datetime
 import json
-
 import pandas
 import requests
 import yfinance as yf
@@ -35,7 +34,7 @@ block = {
     ]
 }
 
-webhook = "WEBHOOK_URL"
+webhooks = []
 
 message = ""
 
@@ -70,7 +69,7 @@ message += "\n" + "ROI: " + str(roi * 100) + "%"
 
 block["blocks"][1]["text"]["text"] = message
 
-print(block)
 
 # Post to Slack
-r = requests.post(webhook, data=json.dumps(block, indent=4))
+for wh in webhooks:
+    r = requests.post(wh, data=json.dumps(block, indent=4))
