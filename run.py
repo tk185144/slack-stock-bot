@@ -34,43 +34,42 @@ block = {
     ]
 }
 
-webhooks = []
+webhooks = [""]
 
-message = ""
 
-price = yf.Ticker("NCR").history(period="1d")
-current_price = round(pandas.DataFrame(price).iloc[0]["Close"], 2)
-message += "Current Price: $" + str(current_price) + "\n"
-# print("Current Price: $", current_price)
+def post_details(request):
+    message = ""
 
-today = datetime.date.today()
-qStart = get_quarter_start(today)
+    price = yf.Ticker("NCR").history(period="1d")
+    current_price = round(pandas.DataFrame(price).iloc[0]["Close"], 2)
+    message += "Current Price: $" + str(current_price) + "\n"
 
-price = yf.Ticker("NCR").history(period="1d", start=qStart, end=today)
-start_price = round(pandas.DataFrame(price).iloc[0]["Close"], 2)
-message += "Quarter Start Price: $" + str(start_price) + "\n"
-# print("Quarter Start Price: $", start_price)
+    today = datetime.date.today()
+    qStart = get_quarter_start(today)
 
-minimum = min(start_price, current_price)
-message += "Min: $" + str(minimum) + "\n"
-# print("Min: $", min)
+    price = yf.Ticker("NCR").history(period="1d", start=qStart, end=today)
+    start_price = round(pandas.DataFrame(price).iloc[0]["Close"], 2)
+    message += "Quarter Start Price: $" + str(start_price) + "\n"
 
-discount_price = round(minimum * .85, 2)
-message += "15% Discount Price: $" + str(discount_price) + "\n"
-# print("Discount Price: $", discount_price)
+    minimum = min(start_price, current_price)
+    message += "Min: $" + str(minimum) + "\n"
 
-diff = round(current_price - discount_price, 2)
-message += "Difference: $" + str(diff) + "\n"
-# print("Difference: $", diff)
+    discount_price = round(minimum * .85, 2)
+    message += "15% Discount Price: $" + str(discount_price) + "\n"
 
-roi = round(diff * 100 / discount_price, 2)
-message += "\n" + "ROI: " + str(roi) + "%"
-# print("ROI: ", roi * 100, "%")
+    diff = round(current_price - discount_price, 2)
+    message += "Difference: $" + str(diff) + "\n"
 
-block["blocks"][1]["text"]["text"] = message
+    roi = round(diff * 100 / discount_price, 2)
+    message += "\n" + "ROI: " + str(roi) + "%"
 
-print(block)
+    block["blocks"][1]["text"]["text"] = message
 
-# Post to Slack
-for wh in webhooks:
-    r = requests.post(wh, data=json.dumps(block, indent=4))
+    print(block)
+
+    # Post to Slack
+    for wh in webhooks:
+        r = requests.post(wh, data=json.dumps(block, indent=4))
+
+    return "OK"
+
