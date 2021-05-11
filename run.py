@@ -64,11 +64,12 @@ message += "Difference: $" + str(diff) + "\n"
 # print("Difference: $", diff)
 
 roi = round(diff * 100 / discount_price, 2)
-message += "\n" + "ROI: " + str(roi * 100) + "%"
+message += "\n" + "ROI: " + str(roi) + "%"
 # print("ROI: ", roi * 100, "%")
 
 block["blocks"][1]["text"]["text"] = message
 
+print(block)
 
 # Post to Slack
 for wh in webhooks:
