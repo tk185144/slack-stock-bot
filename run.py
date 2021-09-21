@@ -69,8 +69,6 @@ def post_details(request):
 
     block["blocks"][1]["text"]["text"] = message
 
-    block["blocks"][1]["text"]["text"] = message
-
     print(block)
 
     # Post to Slack
