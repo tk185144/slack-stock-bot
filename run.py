@@ -60,8 +60,14 @@ def post_details(request):
     diff = round(current_price - discount_price, 2)
     message += "Difference: $" + str(diff) + "\n"
 
-    roi = round(diff * 100 / discount_price, 2)
+    roi = 0.0
+    if current_price < start_price:
+        roi = round(diff * 100 / current_price, 2)
+    else:
+        roi = round(diff * 100 / discount_price, 2)
     message += "\n" + "ROI: " + str(roi) + "%"
+
+    block["blocks"][1]["text"]["text"] = message
 
     block["blocks"][1]["text"]["text"] = message
 
