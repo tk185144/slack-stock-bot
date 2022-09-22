@@ -21,7 +21,7 @@ block = {
             "type": "section",
             "text": {
                 "type": "mrkdwn",
-                "text": "NCR Corporation Employee Stock Pruchase Plan(ESPP) Details"
+                "text": "NCR Corporation Employee Stock Purchase Plan(ESPP) Details"
             }
         },
         {
@@ -62,7 +62,7 @@ def post_details(request):
 
     roi = 0.0
     if current_price < start_price:
-        roi = round(diff * 100 / current_price, 2)
+        roi = 15.00
     else:
         roi = round(diff * 100 / discount_price, 2)
     message += "\n" + "ROI: " + str(roi) + "%"
